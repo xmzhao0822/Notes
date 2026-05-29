@@ -5,3 +5,20 @@ Name                                         ResourceGroup                    Lo
 -------------------------------------------  -------------------------------  ----------------
 e2eaks-iBs                                   e2erg-bld165645179-vQBMFRxSosn   australiacentral
 trang-hosted-australiacentral                trang                            australiacentral
+
+# Show Managed cluster in region eastus2 curent usage and limit. Usage and limit called different API.
+# 1. Define the scope
+SCOPE="/subscriptions/$(az account show --query id -o tsv)/providers/Microsoft.ContainerService/locations/eastus2"
+
+# 2. Fetch the values into variables
+USAGE=$(az quota usage list --scope $SCOPE --query "[?name=='ManagedClusters'].properties.usages.value" -o tsv)
+LIMIT=$(az quota list --scope $SCOPE --query "[?name=='ManagedClusters'].properties.limit.value" -o tsv)
+
+# 3. Format and print the final table
+printf "%-20s %-15s %-15s\n" "Resource" "CurrentUsage" "Limit"
+printf "%-20s %-15s %-15s\n" "--------------------" "------------" "-----"
+printf "%-20s %-15s %-15s\n" "Managed Clusters" "$USAGE" "$LIMIT"
+=>
+Resource             CurrentUsage    Limit
+-------------------- ------------    -----
+Managed Clusters     79              317
