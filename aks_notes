@@ -1,0 +1,7 @@
+# You can quickly find and list all existing managed clusters across your entire subscription to see what can be cleaned up
+Command: az aks list --query "[].{Name:name, ResourceGroup:resourceGroup, Location:location}" -o table
+=>
+Name                                         ResourceGroup                    Location
+-------------------------------------------  -------------------------------  ----------------
+e2eaks-iBs                                   e2erg-bld165645179-vQBMFRxSosn   australiacentral
+trang-hosted-australiacentral                trang                            australiacentral
